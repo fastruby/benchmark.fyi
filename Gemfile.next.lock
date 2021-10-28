@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: e7b050daa49e4262b26d948f670589b2da37ca18
+  revision: cf1626ec1a92ce6c59dda3baf2d2ea731d8339d9
   branch: main
   specs:
     actioncable (7.0.0.alpha2)
@@ -81,7 +81,7 @@ GIT
       method_source
       rake (>= 12.2)
       thor (~> 1.0)
-      zeitwerk (~> 2.5.0.beta6)
+      zeitwerk (~> 2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -131,7 +131,7 @@ GEM
     power_assert (2.0.1)
     puma (4.3.10)
       nio4r (~> 2.0)
-    racc (1.5.2)
+    racc (1.6.0)
     rack (2.2.3)
     rack-proxy (0.7.0)
       rack
@@ -201,7 +201,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.5.0.beta6)
+    zeitwerk (2.5.1)
 
 PLATFORMS
   x86_64-darwin-19
