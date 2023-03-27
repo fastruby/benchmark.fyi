@@ -1,7 +1,9 @@
 {
   "name": "benchmark.fyi",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "bundle exec rails db:schema:load"
+  },
   "env": {
     "LANG": {
       "required": true
