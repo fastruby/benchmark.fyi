@@ -64,7 +64,7 @@ DATA
     }]
 }
     DATA
-    
+
     post :create, body: data
 
     assert_equal "400", @response.code
@@ -79,10 +79,40 @@ DATA
     }]
 }
     DATA
-    
+
     post :create, body: data
 
     assert_equal "400", @response.code
+  end
 
+  test "environment variables are sent, processed, and saved" do
+    data = {
+      "ruby" => "3.2.1",
+      "os" => "Linux",
+      "arch" => "x86_64",
+      "entries" => [
+        {
+          "name" => "test",
+          "ips" => 10.1,
+          "central_tendency" => 10.1,
+          "error" => 23666,
+          "stddev" => 0.3,
+          "microseconds" => 3322,
+          "iterations" => 221,
+          "cycles" => 16
+        }
+      ]
+    }
+
+    post :create, body: data.to_json
+
+      require "byebug"; byebug
+    rep = JSON.parse @response.body
+
+    report = Report.find_from_short_id rep["id"]
+
+    assert_equal "3.2.1", report.ruby
+    assert_equal "Linux", report.os
+    assert_equal "x86_64", report.arch
   end
 end
