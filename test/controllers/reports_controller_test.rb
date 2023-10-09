@@ -106,7 +106,6 @@ DATA
 
     post :create, body: data.to_json
 
-      require "byebug"; byebug
     rep = JSON.parse @response.body
 
     report = Report.find_from_short_id rep["id"]
