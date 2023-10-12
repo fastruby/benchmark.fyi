@@ -41,7 +41,10 @@ class ReportsController < ApplicationController
       end
     end
 
-    rep = Report.create report: JSON.generate(ary)
+    rep = Report.create report: JSON.generate(ary),
+                        ruby: input["ruby"],
+                        os: input["os"],
+                        arch: input["arch"]
 
     options = input["options"] || {}
 
