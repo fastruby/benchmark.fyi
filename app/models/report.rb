@@ -5,6 +5,7 @@ class Report < ActiveRecord::Base
 
   serialize :report, JSON
   alias_attribute :entries, :report
+  validates :entries, presence: true
   validate :validate_entries_attributes
 
   def short_id
@@ -32,12 +33,24 @@ class Report < ActiveRecord::Base
 
   private
   def validate_entries_attributes
-    valid_entries = entries.all? do |entry|
-      REQUIRED_ENTRY_ATTRIBUTES.all? do |attr|
-        entry[attr].present?
-      end
-    end
+    return if entries.blank?
 
-    errors.add(:entries, "are missing attributes") unless valid_entries
+    invalid_entries = entries.reject { |entry| valid_entry?(entry) }
+
+    if invalid_entries.any?
+      errors.add(:entries, "missing attributes: #{ invalid_entries.map { |entry| error_message(entry) }.join(", ")}")
+    end
+  end
+
+  def valid_entry?(entry)
+    REQUIRED_ENTRY_ATTRIBUTES.all? do |attr|
+      entry[attr].present?
+    end
+  end
+
+  def error_message(entry)
+    missing_attributes = REQUIRED_ENTRY_ATTRIBUTES - entry.keys
+
+    "#{entry} (#{missing_attributes.join(", ")})"
   end
 end

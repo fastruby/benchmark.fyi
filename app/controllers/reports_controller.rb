@@ -1,4 +1,6 @@
 class ReportsController < ApplicationController
+  wrap_parameters false
+
   include ReportsHelper
 
   protect_from_forgery :except => [:create]
