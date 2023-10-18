@@ -1,10 +1,11 @@
 class Report < ActiveRecord::Base
   ALPHABET = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
   BASE = ALPHABET.length
+  REQUIRED_ENTRY_ATTRIBUTES = %W(name ips stddev microseconds iterations cycles)
 
-  def data
-    JSON.parse report
-  end
+  serialize :report, JSON
+  alias_attribute :entries, :report
+  validate :validate_entries_attributes
 
   def short_id
     int_val = self.id
@@ -27,5 +28,16 @@ class Report < ActiveRecord::Base
     end
 
     Report.find int_val
+  end
+
+  private
+  def validate_entries_attributes
+    valid_entries = entries.all? do |entry|
+      REQUIRED_ENTRY_ATTRIBUTES.all? do |attr|
+        entry[attr].present?
+      end
+    end
+
+    errors.add(:entries, "are missing attributes") unless valid_entries
   end
 end

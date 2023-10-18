@@ -1,7 +1,7 @@
-require 'test_helper'
+require "test_helper"
 
 class ReportsControllerTest < ActionController::TestCase
-  test "validates the data json" do
+  test "errors if body is not json" do
     data = "nope"
 
     post :create, body: data
@@ -10,23 +10,20 @@ class ReportsControllerTest < ActionController::TestCase
   end
 
   test "validates the data json as valid benchmark data" do
-    data = <<-DATA
-{
-  "entries":
-    [{
-      "name": "test",
-      "ips": 10.1,
-      "central_tendency": 10.1,
-      "error": 23666,
-      "stddev": 0.3,
-      "microseconds": 3322,
-      "iterations": 221,
-      "cycles": 16
-    }]
-}
-    DATA
+    data = {
+      entries: [{
+        name: "test",
+        ips: 10.1,
+        central_tendency: 10.1,
+        error: 23666,
+        stddev: 0.3,
+        microseconds: 3322,
+        iterations: 221,
+        cycles: 16
+      }]
+    }
 
-    post :create, body: data
+    post :create, params: data, as: :json
 
     assert_equal "200", @response.code
 
@@ -34,77 +31,71 @@ class ReportsControllerTest < ActionController::TestCase
 
     report = Report.find_from_short_id rep["id"]
 
-raw = <<-DATA
-    [{
-      "name": "test",
-      "ips": 10.1,
-      "central_tendency": 10.1,
-      "error": 23666,
-      "stddev": 0.3,
-      "microseconds": 3322,
-      "iterations": 221,
-      "cycles": 16
-    }]
-DATA
+    raw = <<~DATA
+      [{
+        "name": "test",
+        "ips": 10.1,
+        "central_tendency": 10.1,
+        "error": 23666,
+        "stddev": 0.3,
+        "microseconds": 3322,
+        "iterations": 221,
+        "cycles": 16
+      }]
+    DATA
 
-    assert_equal JSON.parse(raw), report.data
+    assert_equal JSON.parse(raw), report.entries
   end
 
   test "errors on unknown data keys" do
-    data = <<-DATA
-{
-  "entries":
-    [{
-      "name": "test",
-      "ipx": 10.1,
-      "stddev": 0.3,
-      "microseconds": 3322,
-      "iterations": 221,
-      "cycles": 16
-    }]
-}
-    DATA
+    data = {
+      entries: [{
+        name: "test",
+        ipx: 10.1,
+        stddev: 0.3,
+        microseconds: 3322,
+        iterations: 221,
+        cycles: 16
+      }]
+    }
 
-    post :create, body: data
+    post :create, params: data, as: :json
 
     assert_equal "400", @response.code
   end
 
   test "errors out if there are keys missing" do
-    data = <<-DATA
-{
-  "entries":
-    [{
-      "name": "test"
-    }]
-}
-    DATA
+    data = {
+      entries: [{
+        name: "test"
+      }]
+    }
 
-    post :create, body: data
+    post :create, params: data, as: :json
 
     assert_equal "400", @response.code
   end
 
   test "environment variables are sent, processed, and saved" do
     data = {
-      "ruby" => "3.2.1",
-      "os" => "Linux",
-      "arch" => "x86_64",
-      "entries" => [
+      ruby: "3.2.1",
+      os: "Linux",
+      arch: "x86_64",
+      entries: [
         {
-          "name" => "test",
-          "ips" => 10.1,
-          "central_tendency" => 10.1,
-          "error" => 23666,
-          "stddev" => 0.3,
-          "microseconds" => 3322,
-          "iterations" => 221,
-          "cycles" => 16
+          name: "test",
+          ips: 10.1,
+          central_tendency: 10.1,
+          error: 23666,
+          stddev: 0.3,
+          microseconds: 3322,
+          iterations: 221,
+          cycles: 16
         }
       ]
     }
 
-    post :create, body: data.to_json
+    post :create, params: data, as: :json
 
     rep = JSON.parse @response.body
 

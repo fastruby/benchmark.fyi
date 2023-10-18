@@ -7,7 +7,7 @@
       <% end %>
       <th>iterations/second</th>
     </tr>
-    <% @report.data.each do |part| %>
+    <% @report.entries.each do |part| %>
       <tr>
         <td>
           <% if part["name"] == @fastest["name"] %>
