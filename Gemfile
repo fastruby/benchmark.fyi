@@ -10,7 +10,7 @@ ruby '3.1.3'
 if next?
   gem 'rails', github: 'rails/rails', branch: 'main'
 else
-  gem 'rails', '~> 7.0.0'
+  gem 'rails', '~> 7.1.0'
 end
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
