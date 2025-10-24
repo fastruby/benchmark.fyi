@@ -3,7 +3,7 @@ class Report < ActiveRecord::Base
   BASE = ALPHABET.length
   REQUIRED_ENTRY_ATTRIBUTES = %W(name ips stddev microseconds iterations cycles)
 
-  serialize :report, JSON
+  serialize :report, coder: JSON
   alias_attribute :entries, :report
   validates :entries, presence: true
   validate :validate_entries_attributes
