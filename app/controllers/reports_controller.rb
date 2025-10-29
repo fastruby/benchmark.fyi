@@ -1,52 +1,16 @@
 class ReportsController < ApplicationController
+  before_action :fix_missing_json_content_type
+
+  wrap_parameters false
+
   include ReportsHelper
 
   protect_from_forgery :except => [:create]
 
-  DATA_KEY = %W!central_tendency error name ips stddev microseconds iterations cycles!
-
   def create
-    data = request.body.read
+    rep = Report.create! report_params
 
-    begin
-      input = JSON.parse data
-    rescue Exception => err
-      logger.fatal("Error: #{err.message} || #{data}")
-      head 400
-      return
-    end
-
-    ary = input["entries"]
-
-    unless ary.kind_of? Array
-      head 400
-      return
-    end
-
-    ary.each do |j|
-      needed = DATA_KEY.dup
-
-      j.keys.each do |k|
-        if DATA_KEY.include? k
-          needed.delete k
-        else
-          head 400
-          return
-        end
-      end
-
-      unless needed.empty?
-        head 400
-        return
-      end
-    end
-
-    rep = Report.create report: JSON.generate(ary),
-                        ruby: input["ruby"],
-                        os: input["os"],
-                        arch: input["arch"]
-
-    options = input["options"] || {}
+    options = params["options"] || {}
 
     if options["compare"]
       rep.compare = true
@@ -55,6 +19,8 @@ class ReportsController < ApplicationController
     rep.save
 
     render json: { id: rep.short_id }
+  rescue ActionController::ParameterMissing, ActiveRecord::RecordInvalid
+    head 400
   end
 
   def show
@@ -64,7 +30,7 @@ class ReportsController < ApplicationController
     fastest_val = nil
     note_high_stddev = false
 
-    @report.data.each do |part|
+    @report.entries.each do |part|
       if !fastest_val || part["ips"] > fastest_val
         fastest = part
         fastest_val = part["ips"]
@@ -77,5 +43,32 @@ class ReportsController < ApplicationController
 
     @note_high_stddev = note_high_stddev
     @fastest = fastest
+  end
+
+  private
+  def report_params
+    entries_params = params.require(:entries).map do |entry|
+      entry.permit(:name, :ips, :central_tendency, :error, :stddev, :microseconds, :iterations, :cycles)
+    end
+    params.permit(:ruby, :os, :arch).merge(report: entries_params)
+  end
+
+  # benchmark-ips sends the JSON string in the request body but it does not specify a content type
+  # when that happens, Rails parses it incorrectly and produces a params key `"{\"entries\":"`
+  # 
+  # we can detect this and fix the params object to properly parse the request body as JSON and update
+  # the `params` object
+  def fix_missing_json_content_type
+    if params.keys.include?("{\"entries\":") && request.body.present?
+      begin
+        json = JSON.parse(request.body.read)
+        params.delete("{\"entries\":")
+        params.merge!(json)
+      rescue JSON::ParserError
+        # Body was not valid JSON, do nothing
+      ensure
+        request.body.rewind
+      end
+    end
   end
 end
