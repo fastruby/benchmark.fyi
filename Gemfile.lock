@@ -153,7 +153,9 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    pg (1.2.3)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-darwin)
+    pg (1.6.3-x86_64-linux)
     power_assert (2.0.1)
     pp (0.6.3)
       prettyprint
@@ -282,6 +284,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-23
+  arm64-darwin-25
   x86_64-darwin-19
   x86_64-linux
 
@@ -290,6 +293,7 @@ DEPENDENCIES
   foundation-rails
   jbuilder (~> 2.7)
   listen (~> 3.2)
+  minitest (~> 5.25)
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 7.1.0)
@@ -301,7 +305,7 @@ DEPENDENCIES
   webpacker (~> 5.0)
 
 RUBY VERSION
-   ruby 3.1.7p261
+   ruby 3.3.12p206
 
 BUNDLED WITH
    2.6.9

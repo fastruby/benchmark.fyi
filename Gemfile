@@ -5,7 +5,7 @@ end
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.7'
+ruby '3.3.12'
 
 if next?
   gem 'rails', '~> 7.2.0'
@@ -41,6 +41,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :test do
   gem 'test-unit'
+  gem 'minitest', '~> 5.25'
 end
 
 group :development, :test do
