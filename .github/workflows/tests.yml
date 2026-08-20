@@ -49,9 +49,10 @@ jobs:
 
       # bundler-cache runs `bundle install` against BUNDLE_GEMFILE, so each boot
       # is resolved from its own committed lockfile and cached separately.
+      # No ruby-version: setup-ruby reads .tool-versions by default. Passing
+      # ruby-version-file is rejected as an unknown input by this action.
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version-file: .tool-versions
           bundler-cache: true
 
       - name: Set up the database
