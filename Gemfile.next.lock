@@ -133,6 +133,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
+    ostruct (0.6.3)
     pg (1.6.3-arm64-darwin)
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
@@ -244,6 +245,7 @@ PLATFORMS
 DEPENDENCIES
   listen (~> 3.2)
   minitest (~> 5.25)
+  ostruct
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 7.2.0)
@@ -252,7 +254,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 RUBY VERSION
-   ruby 3.3.12p206
+   ruby 4.0.6p0
 
 BUNDLED WITH
    2.6.9

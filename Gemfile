@@ -5,7 +5,7 @@ end
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.12'
+ruby '4.0.6'
 
 if next?
   gem 'rails', '~> 7.2.0'
@@ -15,6 +15,7 @@ end
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
 gem 'sass-rails'
+gem 'ostruct'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
