@@ -34,4 +34,42 @@ module ReportsHelper
   def format_stddev(part)
     "%4.1f%%" % stddev_percentage(part)
   end
+
+  # The report rendered as a markdown table, for pasting into an issue or a
+  # pull request. Mirrors what the page shows: the fastest entry is bolded and
+  # the slower column only appears for comparison reports.
+  def report_markdown(report, fastest, url)
+    columns = ["name", "iterations/second"]
+    columns << "slower" if report.compare
+
+    lines = []
+    lines << "| #{columns.join(" | ")} |"
+    lines << "| #{columns.map { "---" }.join(" | ")} |"
+
+    report.entries.each do |entry|
+      name = entry["name"]
+      name = "**#{name}**" if fastest && entry["name"] == fastest["name"]
+
+      cells = [name, "#{format_ips(entry["ips"]).strip} \u00b1 #{format_stddev(entry).strip}"]
+      cells << times_slower(fastest, entry) if report.compare
+
+      lines << "| #{cells.join(" | ")} |"
+    end
+
+    environment = report_environment(report)
+    lines << ""
+    lines << [environment, "Full report: #{url}"].compact.join(". ")
+
+    lines.join("\n")
+  end
+
+  # "ruby 4.0.6, darwin/arm64" from whichever of those fields the client sent.
+  # Older reports predate them entirely, so this can be nil.
+  def report_environment(report)
+    ruby = "ruby #{report.ruby}" if report.ruby.present?
+    machine = [report.os, report.arch].reject(&:blank?).join("/")
+
+    parts = [ruby, machine.presence].compact
+    parts.any? ? parts.join(", ") : nil
+  end
 end

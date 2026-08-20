@@ -1,0 +1,83 @@
+// Home page: hero, usage block, and the FAQ list.
+
+.docs {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+
+  &__hero {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 62ch;
+
+    h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.75rem;
+      line-height: 1.08;
+      letter-spacing: 1.18px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+  }
+
+  &__usage {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 74ch;
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+    max-width: 78ch;
+  }
+
+  &__faq-item {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    gap: 28px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+
+    h2 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 14.5px;
+      line-height: 1.35;
+      letter-spacing: normal;
+    }
+
+    p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .docs {
+    gap: 32px;
+
+    &__faq-item {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+}

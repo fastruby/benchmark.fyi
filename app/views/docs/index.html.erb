@@ -1,21 +1,59 @@
-<ul>
-  <li>
-    <b>What is this?</b> This is a site that allows you to easily share benchmarking results.
-  </li>
-  <li>
-    <b>How do I use it?</b> Install <code>benchmark-ips</code> version <code>2.6.0</code> or greater and run your benchmark with <code>SHARE=1</code>. I.e.: <code>SHARE=1 ruby my_benchmark.rb</code>
-  </li>
-  <li>
-    <b>I shared a benchmark, how do I find it?</b> The url for your shared benchmark is output in the terminal after it runs. Share that URL with friends, enemies, whoever.
-  </li>
-  <li>
-    <b>The site is ugly, how can I make it nicer?</b> Send a PR to <a href="https://github.com/fastruby/benchmark.fyi">github.com/fastruby/benchmark.fyi</a> with your changes!
-  </li>
-  <li>
-    <b>I have a great idea to improve benchmark.fyi!</b> <em>AAWESOME!</em> Open an issue or send a PR to <a href="https://github.com/fastruby/benchmark.fyi">github.com/fastruby/benchmark.fyi</a>!
-  </li>
-  <li>
-    <b>Who made this?</b> Evan Phoenix (<a href="https://twitter.com/evanphx">evanphx</a>) did. <a href="https://www.fastruby.io/team">FastRuby.io</a> maintains <a href="https://ips.fastruby.io/">https://ips.fastruby.io</a> and <a href="https://github.com/fastruby/benchmark.fyi">github.com/fastruby/benchmark.fyi</a>.
-  </li>
-</ul>
+<div class="docs">
+  <section class="docs__hero">
+    <h1>Share benchmark results as a link</h1>
+    <p>
+      Run your <a href="https://github.com/evanphx/benchmark-ips">benchmark-ips</a>
+      benchmark with one extra environment variable and get a URL you can paste
+      into an issue, a pull request, or a blog post.
+    </p>
+  </section>
 
+  <section class="docs__usage">
+    <div class="eyebrow">How to use it</div>
+    <div class="terminal">
+<pre><span class="prompt">$</span> gem install benchmark-ips
+<span class="prompt">$</span> SHARE=1 ruby my_benchmark.rb
+
+<span class="result">Shared at: https://ips.fastruby.io/2Bq</span></pre>
+    </div>
+    <p class="docs__note">
+      Requires benchmark-ips 2.6.0 or greater. Add <code>x.compare!</code> to your
+      benchmark for the times-slower column.
+    </p>
+  </section>
+
+  <section class="docs__faq">
+    <div class="docs__faq-item">
+      <h2>I shared a benchmark, how do I find it?</h2>
+      <p>
+        The URL is printed in your terminal after the run. Share it with friends,
+        enemies, whoever.
+      </p>
+    </div>
+
+    <div class="docs__faq-item">
+      <h2>Can I run my own instance?</h2>
+      <p>
+        Yes. Point benchmark-ips at it with <code>SHARE_URL</code> instead of
+        <code>SHARE</code>, and it posts there rather than here.
+      </p>
+    </div>
+
+    <div class="docs__faq-item">
+      <h2>The site is ugly, how can I make it nicer?</h2>
+      <p>
+        Send a pull request to
+        <a href="https://github.com/fastruby/benchmark.fyi">github.com/fastruby/benchmark.fyi</a>
+        with your changes.
+      </p>
+    </div>
+
+    <div class="docs__faq-item">
+      <h2>I have a great idea to improve benchmark.fyi!</h2>
+      <p>
+        Excellent. Open an issue or send a pull request to
+        <a href="https://github.com/fastruby/benchmark.fyi">github.com/fastruby/benchmark.fyi</a>.
+      </p>
+    </div>
+  </section>
+</div>
