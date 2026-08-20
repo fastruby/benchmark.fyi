@@ -1,6 +1,5 @@
-# .github/workflows/ci.yml
-
 name: CI
+
 on:
   push:
     branches:
@@ -10,87 +9,55 @@ on:
       - main
 
 jobs:
-  test-rails-current:
+  test:
+    name: test (${{ matrix.gemfile }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    strategy:
+      fail-fast: false
+      matrix:
+        gemfile: [ Gemfile, Gemfile.next ]
 
     services:
       postgres:
-        image: postgres:11.6-alpine
-        ports:
-          - 5432:5432
+        # Matches the production Postgres version.
+        image: postgres:18.3-alpine
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v1
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "4.0.6"
-      - name: Install PostgreSQL 11 client
-        run: |
-          sudo apt-get -yqq install libpq-dev
-
-      - name: Build App
-        env:
-          PGHOST: localhost
-          PGUSER: postgres
-          RAILS_ENV: test
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
-          cp config/database.yml.github config/database.yml
-          cat config/database.yml
-          bin/setup
-          bin/rails db:setup
-      - name: Run tests
-        run: |
-          bundle exec rake
-  test-rails-next:
-    runs-on: ubuntu-latest
-
-    services:
-      postgres:
-        image: postgres:11.6-alpine
         ports:
           - 5432:5432
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        # The postgres image ships no healthcheck of its own.
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      RAILS_ENV: test
+      PGHOST: localhost
+      PGUSER: postgres
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
 
     steps:
-      - uses: actions/checkout@v1
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "4.0.6"
-      - name: Install PostgreSQL 11 client
-        run: |
-          sudo apt-get -yqq install libpq-dev
+      - uses: actions/checkout@v4
 
-      - name: Build App
-        env:
-          PGHOST: localhost
-          PGUSER: postgres
-          RAILS_ENV: test
-          BUNDLE_GEMFILE: Gemfile.next
+      - name: Install the PostgreSQL client
+        run: sudo apt-get -yqq install libpq-dev
+
+      # bundler-cache runs `bundle install` against BUNDLE_GEMFILE, so each boot
+      # is resolved from its own committed lockfile and cached separately.
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version-file: .tool-versions
+          bundler-cache: true
+
+      - name: Set up the database
         run: |
-          gem install bundler
-          bundle update rails --jobs 4 --retry 3
           cp config/database.yml.github config/database.yml
-          cat config/database.yml
-          bin/setup
           bin/rails db:setup
+
       - name: Run tests
-        env:
-          PGHOST: localhost
-          PGUSER: postgres
-          RAILS_ENV: test
-          BUNDLE_GEMFILE: Gemfile.next
-        run: |
-          bundle exec rake
+        run: bundle exec rake
