@@ -41,6 +41,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :test do
   gem 'test-unit'
+  gem 'minitest', '~> 5.25'
 end
 
 group :development, :test do
