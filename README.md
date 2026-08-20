@@ -112,6 +112,17 @@ one.
 
 Visit http://localhost:3000 and share a benchmark at it using the `SHARE_URL` example above.
 
+To look at a report page without running a benchmark first, load the samples:
+
+```bash
+bin/rails db:seed
+```
+
+That creates three reports covering the variations the page has to handle: a
+comparison report with a noisy entry, one without `compare!`, and one from an
+older client that sent no ruby/os/arch fields. It prints their paths and does
+nothing if reports already exist, so pass `FORCE=1` to add them anyway.
+
 ## Verifying a change end to end
 
 The suite uses Rack::Test, so it never exercises the real server or a real

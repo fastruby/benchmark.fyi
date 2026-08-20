@@ -14,15 +14,15 @@
     h1 {
       margin: 0;
       font-weight: 700;
-      font-size: 1.75rem;
+      font-size: 2.1rem;
       line-height: 1.08;
       letter-spacing: 1.18px;
     }
 
     p {
       margin: 0;
-      font-size: 17px;
-      line-height: 1.5;
+      font-size: 18px;
+      line-height: 1.55;
       color: var(--muted);
     }
   }
@@ -36,7 +36,7 @@
 
   &__note {
     margin: 0;
-    font-size: 13.5px;
+    font-size: 14.5px;
     color: var(--muted);
   }
 
@@ -49,7 +49,7 @@
 
   &__faq-item {
     display: grid;
-    grid-template-columns: 210px 1fr;
+    grid-template-columns: 240px 1fr;
     gap: 28px;
     padding: 22px 0;
     border-bottom: 1px solid var(--line);
@@ -57,14 +57,14 @@
     h2 {
       margin: 0;
       font-weight: 700;
-      font-size: 14.5px;
+      font-size: 16px;
       line-height: 1.35;
       letter-spacing: normal;
     }
 
     p {
       margin: 0;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.55;
       color: var(--muted);
     }
