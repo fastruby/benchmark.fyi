@@ -63,6 +63,16 @@ module ReportsHelper
     lines.join("\n")
   end
 
+  # "interpolation and 3 others - benchmark.fyi". A single-entry report gets just
+  # the name, since "and 0 others" reads like a bug.
+  def report_title(report, fastest)
+    name = fastest ? fastest["name"] : "Report"
+    others = report.entries.size - 1
+    name = "#{name} and #{pluralize(others, "other")}" if others.positive?
+
+    "#{name} - benchmark.fyi"
+  end
+
   # Benchmark names are arbitrary strings. An unescaped pipe would add a column
   # to the markdown table and break the row for everyone who pastes it.
   def markdown_cell(value)

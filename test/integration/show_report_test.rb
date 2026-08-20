@@ -31,6 +31,16 @@ class ShowReportTest < ActionDispatch::IntegrationTest
     assert_select ".results-wrap[tabindex=?][role=?]", "0", "region"
   end
 
+  test "titles the page after the fastest entry" do
+    many = Report.create! report: [entry("fast", 500.0, 1.0), entry("slow", 100.0, 1.0)]
+    get "/#{many.short_id}"
+    assert_select "title", text: "fast and 1 other - benchmark.fyi"
+
+    one = Report.create! report: [entry("solo", 500.0, 1.0)]
+    get "/#{one.short_id}"
+    assert_select "title", text: "solo - benchmark.fyi"
+  end
+
   test "warns when an entry has a high standard deviation" do
     report = Report.create! report: [entry("noisy", 100.0, 20.0)]
 

@@ -127,26 +127,32 @@ code {
   color: var(--muted);
 }
 
+/* Lines are separate elements rather than one <pre>, so the markup can be
+   indented normally without leading whitespace reaching the page. */
+
 .terminal {
+  display: flex;
+  flex-direction: column;
   background: var(--ink);
   padding: 22px 24px;
   overflow-x: auto;
 }
 
-.terminal pre {
-  margin: 0;
+.terminal__line {
   font-family: var(--mono);
   font-size: 14px;
   line-height: 1.85;
   color: var(--page);
+  white-space: nowrap;
+}
+
+.terminal__result {
+  margin-top: 1.85em;
+  color: var(--green-pale);
 }
 
 .terminal .prompt {
   color: var(--green);
-}
-
-.terminal .result {
-  color: var(--green-pale);
 }
 
 /* Wider screens opt into more generous spacing. Everything above is the

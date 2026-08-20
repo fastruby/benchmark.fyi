@@ -1,5 +1,5 @@
 <% report_url = "#{root_url}#{@report.short_id}" %>
-<% content_for :title, "#{@fastest["name"]} and #{pluralize(@report.entries.size - 1, "other")} - benchmark.fyi" %>
+<% content_for :title, report_title(@report, @fastest) %>
 
 <div class="report">
   <section class="report__head">
