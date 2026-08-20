@@ -1,0 +1,89 @@
+/* Home page: hero, usage block, and the FAQ list. Flat selectors, no nesting. */
+
+.docs {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.docs__hero {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 62ch;
+}
+
+.docs__hero h1 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.08;
+  letter-spacing: 1.18px;
+}
+
+.docs__hero p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.docs__usage {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 74ch;
+}
+
+.docs__note {
+  margin: 0;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+
+.docs__faq {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  max-width: 78ch;
+}
+
+.docs__faq-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.docs__faq-item h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.35;
+  letter-spacing: normal;
+}
+
+.docs__faq-item p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+/* Wider screens opt into the two-column FAQ and the larger heading. */
+
+@media screen and (min-width: 40em) {
+  .docs {
+    gap: 44px;
+  }
+
+  .docs__hero h1 {
+    font-size: 2.1rem;
+  }
+
+  .docs__faq-item {
+    grid-template-columns: 240px 1fr;
+    gap: 28px;
+  }
+}

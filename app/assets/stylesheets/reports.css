@@ -1,0 +1,257 @@
+/* Report page: the results table, the deviation notice, and the share block. */
+
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.report__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.report__meta li {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  padding: 7px 12px;
+  background: var(--cream);
+  color: var(--muted);
+}
+
+/* The numeric columns do not wrap, so the table gets its own horizontal scroll
+   rather than pushing the page wide. */
+
+.results-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.results-wrap:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+.results {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+}
+
+.results th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px 8px;
+  border-bottom: 2px solid var(--line);
+}
+
+.results td {
+  padding: 12px 8px;
+  border-top: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.results th:first-child,
+.results td:first-child {
+  padding-left: 14px;
+}
+
+.results th:last-child,
+.results td:last-child {
+  padding-right: 14px;
+}
+
+.results th.results__rail,
+.results td.results__rail {
+  width: 4px;
+  padding-left: 12px;
+  padding-right: 0;
+}
+
+.results__slower,
+.results__ips {
+  text-align: right;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.results__slower {
+  font-size: 14px;
+}
+
+.results__name {
+  min-width: 0;
+}
+
+.results__label {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.results__tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--green-pale);
+  padding: 3px 6px;
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+.results__value {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.results__dev {
+  font-size: 12.5px;
+  color: var(--faint);
+}
+
+.results__dev.is-noisy {
+  color: var(--warn-ink);
+}
+
+.results tr.is-fastest {
+  background: #f8fdf9;
+}
+
+.results tr.is-fastest td.results__rail {
+  background: var(--green);
+  background-clip: content-box;
+}
+
+.results tr.is-fastest .results__label,
+.results tr.is-fastest .results__value {
+  font-weight: 900;
+}
+
+.results tr.is-fastest .results__slower {
+  color: var(--faint);
+}
+
+.notice {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 18px 22px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--yellow);
+}
+
+.notice p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 66ch;
+}
+
+.share {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.share__link {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+}
+
+.share__url {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  user-select: all;
+  word-break: break-all;
+}
+
+.share__hint {
+  font-size: 13.5px;
+  color: var(--muted);
+}
+
+.share__snippet {
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.share__snippet-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--page);
+  border-bottom: 1px solid var(--line);
+}
+
+.share__snippet pre {
+  margin: 0;
+  padding: 18px 16px;
+  background: var(--ink);
+  color: var(--page);
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.8;
+  overflow-x: auto;
+  user-select: all;
+}
+
+/* Wider screens opt into roomier cells. */
+
+@media screen and (min-width: 40em) {
+  .report {
+    gap: 30px;
+  }
+
+  .results th {
+    padding: 15px 10px;
+  }
+
+  .results td {
+    padding: 16px 10px;
+  }
+
+  .results th:first-child,
+  .results td:first-child {
+    padding-left: 22px;
+  }
+
+  .results th:last-child,
+  .results td:last-child {
+    padding-right: 22px;
+  }
+
+  .results th.results__rail,
+  .results td.results__rail {
+    padding-left: 18px;
+  }
+}

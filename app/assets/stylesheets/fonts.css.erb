@@ -1,0 +1,30 @@
+/*
+ * Self-hosted webfonts, so no third-party request is made on first load.
+ * .css.erb rather than .scss so the asset paths do not depend on the sass
+ * engine, which is on its way out.
+ */
+
+@font-face {
+  font-family: "Oxygen";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("<%= font_path "oxygen-400.woff2" %>") format("woff2");
+}
+
+@font-face {
+  font-family: "Oxygen";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("<%= font_path "oxygen-700.woff2" %>") format("woff2");
+}
+
+/* Variable font: one file serves every weight between 200 and 900. */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("<%= font_path "source-code-pro.woff2" %>") format("woff2");
+}
