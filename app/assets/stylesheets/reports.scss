@@ -35,6 +35,11 @@
   overflow-x: auto;
   border: 1px solid var(--line);
   background: var(--surface);
+
+  &:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+  }
 }
 
 .results {
@@ -51,12 +56,12 @@
     color: var(--muted);
     text-align: left;
     padding: 12px 8px;
-    border-bottom: 2px solid var(--line-soft);
+    border-bottom: 2px solid var(--line);
   }
 
   td {
     padding: 12px 8px;
-    border-top: 1px solid var(--line-soft);
+    border-top: 1px solid var(--line);
     vertical-align: middle;
   }
 
@@ -115,7 +120,7 @@
 
   &__dev {
     font-size: 12.5px;
-    color: #999;
+    color: var(--faint);
 
     &.is-noisy {
       color: var(--warn-ink);
@@ -136,7 +141,7 @@
     }
 
     .results__slower {
-      color: #999;
+      color: var(--faint);
     }
   }
 }

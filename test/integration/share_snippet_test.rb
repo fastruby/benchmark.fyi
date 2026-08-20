@@ -50,6 +50,21 @@ class ShareSnippetTest < ActionDispatch::IntegrationTest
     refute_includes snippet, "slower"
   end
 
+  test "escapes pipes in names so they do not add markdown columns" do
+    report = Report.create! report: [entry("a | b", 500.0, 1.0)]
+
+    get "/#{report.short_id}"
+
+    snippet = css_select(".share__snippet pre").first.text
+
+    assert_includes snippet, "a \\| b"
+
+    # the row must still be two columns wide, not three: an unescaped pipe would
+    # add a cell and break the table for anyone who pastes it
+    row = snippet.lines.find { |l| l.include?("a \\| b") }
+    assert_equal 3, row.scan(/(?<!\\)\|/).size
+  end
+
   test "omits the environment line when the client sent no environment" do
     report = Report.create! report: [entry("only", 500.0, 1.0)]
 

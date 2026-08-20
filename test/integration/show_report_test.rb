@@ -22,6 +22,15 @@ class ShowReportTest < ActionDispatch::IntegrationTest
     assert_select "tr.is-fastest .results__tag", text: "fastest"
   end
 
+  test "gives the page a heading and a scrollable results region" do
+    report = Report.create! report: [entry("only", 500.0, 1.0)]
+
+    get "/#{report.short_id}"
+
+    assert_select "h1"
+    assert_select ".results-wrap[tabindex=?][role=?]", "0", "region"
+  end
+
   test "warns when an entry has a high standard deviation" do
     report = Report.create! report: [entry("noisy", 100.0, 20.0)]
 
@@ -29,6 +38,8 @@ class ShowReportTest < ActionDispatch::IntegrationTest
 
     assert_equal 200, status
     assert_select ".notice"
+    # the noisy entry is marked in text, not by colour alone
+    assert_select ".results__dev.is-noisy", text: /high/
   end
 
   test "omits the warning when every entry is consistent" do

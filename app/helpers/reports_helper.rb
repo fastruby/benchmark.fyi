@@ -18,7 +18,7 @@ module ReportsHelper
   def times_slower(best, cur)
     best_low = best["ips"] - best["stddev"]
     report_high = cur["ips"] + cur["stddev"]
-    overlaps = report_high > best_low 
+    overlaps = report_high > best_low
 
     if overlaps
       return "-"
@@ -47,7 +47,7 @@ module ReportsHelper
     lines << "| #{columns.map { "---" }.join(" | ")} |"
 
     report.entries.each do |entry|
-      name = entry["name"]
+      name = markdown_cell(entry["name"])
       name = "**#{name}**" if fastest && entry["name"] == fastest["name"]
 
       cells = [name, "#{format_ips(entry["ips"]).strip} \u00b1 #{format_stddev(entry).strip}"]
@@ -61,6 +61,12 @@ module ReportsHelper
     lines << [environment, "Full report: #{url}"].compact.join(". ")
 
     lines.join("\n")
+  end
+
+  # Benchmark names are arbitrary strings. An unescaped pipe would add a column
+  # to the markdown table and break the row for everyone who pastes it.
+  def markdown_cell(value)
+    value.to_s.gsub("|") { "\\|" }
   end
 
   # "ruby 4.0.6, darwin/arm64" from whichever of those fields the client sent.

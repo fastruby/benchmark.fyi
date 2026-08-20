@@ -1,9 +1,10 @@
 <% report_url = "#{root_url}#{@report.short_id}" %>
+<% content_for :title, "#{@fastest["name"]} and #{pluralize(@report.entries.size - 1, "other")} - benchmark.fyi" %>
 
 <div class="report">
   <section class="report__head">
-    <div class="eyebrow">Shared report</div>
-    <% if (environment = report_environment(@report)) %>
+    <h1 class="eyebrow">Shared report</h1>
+    <% if report_environment(@report) %>
       <ul class="report__meta">
         <% if @report.ruby.present? %><li>ruby <%= @report.ruby %></li><% end %>
         <% if @report.os.present? %><li><%= @report.os %></li><% end %>
@@ -12,7 +13,7 @@
     <% end %>
   </section>
 
-  <div class="results-wrap">
+  <div class="results-wrap" tabindex="0" role="region" aria-label="Benchmark results">
     <table class="results">
       <thead>
         <tr>
@@ -40,8 +41,9 @@
             <% end %>
             <td class="results__ips">
               <span class="results__value"><%= format_ips(part["ips"]).strip %></span>
-              <span class="results__dev <%= "is-noisy" if stddev_percentage(part) >= 5 %>">
-                &plusmn; <%= format_stddev(part).strip %>
+              <% noisy = stddev_percentage(part) >= 5 %>
+              <span class="results__dev <%= "is-noisy" if noisy %>">
+                &plusmn; <%= format_stddev(part).strip %><% if noisy %> high<% end %>
               </span>
             </td>
           </tr>
@@ -70,7 +72,7 @@
     <div class="share__snippet">
       <div class="share__snippet-head">
         <span class="eyebrow">Copy as markdown</span>
-        <span class="share__hint">Click the block to select it all</span>
+        <span class="share__hint">Select the block to copy it</span>
       </div>
       <pre><%= report_markdown(@report, @fastest, report_url) %></pre>
     </div>
