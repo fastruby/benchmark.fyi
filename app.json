@@ -1,27 +1,28 @@
 {
   "name": "benchmark.fyi",
-  "description": "",
+  "description": "Benchmark results for Ruby and Rails",
+  "stack": "heroku-26",
   "scripts": {
     "postdeploy": "bundle exec rails db:schema:load"
   },
   "env": {
     "LANG": {
-      "required": true
+      "value": "en_US.UTF-8"
     },
     "RACK_ENV": {
-      "required": true
+      "value": "production"
     },
     "RAILS_ENV": {
-      "required": true
+      "value": "production"
     },
     "RAILS_LOG_TO_STDOUT": {
-      "required": true
+      "value": "enabled"
     },
     "RAILS_SERVE_STATIC_FILES": {
-      "required": true
+      "value": "enabled"
     },
     "SECRET_KEY_BASE": {
-      "required": true
+      "generator": "secret"
     }
   },
   "formation": {
@@ -29,7 +30,11 @@
       "quantity": 1
     }
   },
-  "addons": ["heroku-postgresql"],
+  "addons": [
+    {
+      "plan": "heroku-postgresql:essential-0"
+    }
+  ],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -38,5 +43,18 @@
       "url": "heroku/ruby"
     }
   ],
-  "stack": "heroku-22"
+  "environments": {
+    "review": {
+      "addons": [
+        {
+          "plan": "heroku-postgresql:essential-0"
+        }
+      ],
+      "formation": {
+        "web": {
+          "quantity": 1
+        }
+      }
+    }
+  }
 }
