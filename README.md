@@ -89,30 +89,11 @@ Requirements:
 - Ruby **4.0.6** (see `.tool-versions`)
 - PostgreSQL
 
-`config/database.yml` is intentionally not in the repo. Create it before anything else, or setup will fail:
+`config/database.yml` is intentionally not in the repo, so a fresh clone has to
+create one. Both `bin/setup` and `bin/dev` stop with the command to run if it is
+missing, so you do not have to remember this.
 
-```bash
-cp config/database.yml.github config/database.yml
-```
-
-That template uses the `postgres` role over TCP, which suits CI. If you run PostgreSQL locally via Homebrew, a minimal version that uses your own account and the local socket works better:
-
-```yaml
-default: &default
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
-  database: benchmark_fyi_development
-
-test:
-  <<: *default
-  database: benchmark_fyi_test
-```
-
-Then install dependencies and create the databases:
+Install dependencies and create the databases:
 
 ```bash
 ./bin/setup
@@ -124,10 +105,10 @@ Start the server:
 bin/dev
 ```
 
-That is a thin wrapper around `bin/rails server` that tells you what to do if
-`config/database.yml` is missing. Arguments pass through, so `bin/dev -p 4000`
-works. There is no asset watcher to run alongside it, so it is not the
-foreman-and-`Procfile.dev` version Rails generates for apps that have one.
+Arguments pass through, so `bin/dev -p 4000` works. There is no asset watcher to
+run alongside the server, so this is a plain wrapper around `bin/rails server`,
+not the foreman-and-`Procfile.dev` version Rails generates for apps that have
+one.
 
 Visit http://localhost:3000 and share a benchmark at it using the `SHARE_URL` example above.
 

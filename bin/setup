@@ -24,6 +24,18 @@ FileUtils.chdir APP_ROOT do
   #   FileUtils.cp 'config/database.yml.sample', 'config/database.yml'
   # end
 
+  unless File.exist?('config/database.yml')
+    abort <<~MSG
+      \n== config/database.yml is missing, so the database cannot be prepared ==
+
+        cp config/database.yml.github config/database.yml
+
+      That template expects a 'postgres' role over TCP, which suits CI. If you
+      run PostgreSQL locally under your own account, delete the username,
+      password and host lines from it.
+    MSG
+  end
+
   puts "\n== Preparing database =="
   system! 'bin/rails db:prepare'
 

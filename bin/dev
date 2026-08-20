@@ -9,8 +9,9 @@ if [ ! -f config/database.yml ]; then
   echo
   echo "  cp config/database.yml.github config/database.yml"
   echo
-  echo "That template expects a 'postgres' role over TCP. If you run PostgreSQL"
-  echo "locally, the README has a shorter version that uses your own account."
+  echo "That template expects a 'postgres' role over TCP, which suits CI. If you"
+  echo "run PostgreSQL locally under your own account, delete the username,"
+  echo "password and host lines from it."
   exit 1
 fi
 
