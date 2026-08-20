@@ -15,7 +15,7 @@ end
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'rack', '~> 2.2'
 gem 'puma', '~> 8.0'
-gem 'sass-rails'
+gem 'sprockets-rails'
 gem 'ostruct'
 
 group :development do
