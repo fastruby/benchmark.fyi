@@ -66,7 +66,7 @@ code {
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  padding: 22px 32px;
+  padding: 22px 20px;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
@@ -98,7 +98,7 @@ code {
   width: 100%;
   max-width: 940px;
   margin: 0 auto;
-  padding: 44px 32px 56px;
+  padding: 28px 20px 40px;
 }
 
 /* Colophon */
@@ -108,7 +108,7 @@ code {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  padding: 24px 32px;
+  padding: 24px 20px;
   background: var(--surface);
   border-top: 1px solid var(--line);
   font-size: 14px;
@@ -148,14 +148,17 @@ code {
   color: var(--green-pale);
 }
 
-@media screen and (max-width: 640px) {
+/* Wider screens opt into more generous spacing. Everything above is the
+   small-screen baseline. */
+
+@media screen and (min-width: 40em) {
   .masthead,
   .colophon {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 
   .shell {
-    padding: 28px 20px 40px;
+    padding: 44px 32px 56px;
   }
 }

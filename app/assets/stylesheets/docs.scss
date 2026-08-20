@@ -3,7 +3,7 @@
 .docs {
   display: flex;
   flex-direction: column;
-  gap: 44px;
+  gap: 32px;
 
   &__hero {
     display: flex;
@@ -14,7 +14,7 @@
     h1 {
       margin: 0;
       font-weight: 700;
-      font-size: 2.1rem;
+      font-size: 1.75rem;
       line-height: 1.08;
       letter-spacing: 1.18px;
     }
@@ -49,8 +49,8 @@
 
   &__faq-item {
     display: grid;
-    grid-template-columns: 240px 1fr;
-    gap: 28px;
+    grid-template-columns: 1fr;
+    gap: 8px;
     padding: 22px 0;
     border-bottom: 1px solid var(--line);
 
@@ -71,13 +71,19 @@
   }
 }
 
-@media screen and (max-width: 640px) {
+// Wider screens opt into the two-column FAQ and the larger heading.
+
+@media screen and (min-width: 40em) {
   .docs {
-    gap: 32px;
+    gap: 44px;
+
+    &__hero h1 {
+      font-size: 2.1rem;
+    }
 
     &__faq-item {
-      grid-template-columns: 1fr;
-      gap: 8px;
+      grid-template-columns: 240px 1fr;
+      gap: 28px;
     }
   }
 }

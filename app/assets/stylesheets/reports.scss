@@ -3,7 +3,7 @@
 .report {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 24px;
 
   &__head {
     display: flex;
@@ -29,11 +29,18 @@
   }
 }
 
+// The numeric columns do not wrap, so the table gets its own horizontal scroll
+// rather than pushing the page wide.
+.results-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
 .results {
   width: 100%;
   border-collapse: collapse;
   background: var(--surface);
-  border: 1px solid var(--line);
 
   th {
     font-family: var(--mono);
@@ -43,30 +50,31 @@
     text-transform: uppercase;
     color: var(--muted);
     text-align: left;
-    padding: 15px 10px;
+    padding: 12px 8px;
     border-bottom: 2px solid var(--line-soft);
   }
 
   td {
-    padding: 16px 10px;
+    padding: 12px 8px;
     border-top: 1px solid var(--line-soft);
     vertical-align: middle;
   }
 
   th:first-child,
   td:first-child {
-    padding-left: 22px;
+    padding-left: 14px;
   }
 
   th:last-child,
   td:last-child {
-    padding-right: 22px;
+    padding-right: 14px;
   }
 
-  &__rail {
+  th.results__rail,
+  td.results__rail {
     width: 4px;
-    padding-left: 18px !important;
-    padding-right: 0 !important;
+    padding-left: 12px;
+    padding-right: 0;
   }
 
   &__slower,
@@ -207,25 +215,35 @@
   }
 }
 
-@media screen and (max-width: 640px) {
+// Wider screens opt into roomier cells.
+
+@media screen and (min-width: 40em) {
+  .report {
+    gap: 30px;
+  }
+
   .results {
-    th,
-    td {
-      padding: 12px 8px;
+    th {
+      padding: 15px 10px;
     }
 
-    &__rail {
-      padding-left: 12px !important;
+    td {
+      padding: 16px 10px;
     }
 
     th:first-child,
     td:first-child {
-      padding-left: 14px;
+      padding-left: 22px;
     }
 
     th:last-child,
     td:last-child {
-      padding-right: 14px;
+      padding-right: 22px;
+    }
+
+    th.results__rail,
+    td.results__rail {
+      padding-left: 18px;
     }
   }
 }

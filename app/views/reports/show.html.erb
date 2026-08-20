@@ -12,41 +12,43 @@
     <% end %>
   </section>
 
-  <table class="results">
-    <thead>
-      <tr>
-        <th class="results__rail"></th>
-        <th class="results__name">name</th>
-        <% if @report.compare %>
-          <th class="results__slower">slower</th>
-        <% end %>
-        <th class="results__ips">iterations / second</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @report.entries.each do |part| %>
-        <% fastest = part["name"] == @fastest["name"] %>
-        <tr class="<%= "is-fastest" if fastest %>">
-          <td class="results__rail"></td>
-          <td class="results__name">
-            <span class="results__label"><%= part["name"] %></span>
-            <% if fastest %>
-              <span class="results__tag">fastest</span>
-            <% end %>
-          </td>
+  <div class="results-wrap">
+    <table class="results">
+      <thead>
+        <tr>
+          <th class="results__rail"></th>
+          <th class="results__name">name</th>
           <% if @report.compare %>
-            <td class="results__slower"><%= times_slower @fastest, part %></td>
+            <th class="results__slower">slower</th>
           <% end %>
-          <td class="results__ips">
-            <span class="results__value"><%= format_ips(part["ips"]).strip %></span>
-            <span class="results__dev <%= "is-noisy" if stddev_percentage(part) >= 5 %>">
-              &plusmn; <%= format_stddev(part).strip %>
-            </span>
-          </td>
+          <th class="results__ips">iterations / second</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @report.entries.each do |part| %>
+          <% fastest = part["name"] == @fastest["name"] %>
+          <tr class="<%= "is-fastest" if fastest %>">
+            <td class="results__rail"></td>
+            <td class="results__name">
+              <span class="results__label"><%= part["name"] %></span>
+              <% if fastest %>
+                <span class="results__tag">fastest</span>
+              <% end %>
+            </td>
+            <% if @report.compare %>
+              <td class="results__slower"><%= times_slower @fastest, part %></td>
+            <% end %>
+            <td class="results__ips">
+              <span class="results__value"><%= format_ips(part["ips"]).strip %></span>
+              <span class="results__dev <%= "is-noisy" if stddev_percentage(part) >= 5 %>">
+                &plusmn; <%= format_stddev(part).strip %>
+              </span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
   <% if @note_high_stddev %>
     <aside class="notice">
