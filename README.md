@@ -121,8 +121,13 @@ Then install dependencies and create the databases:
 Start the server:
 
 ```bash
-bin/rails server
+bin/dev
 ```
+
+That is a thin wrapper around `bin/rails server` that tells you what to do if
+`config/database.yml` is missing. Arguments pass through, so `bin/dev -p 4000`
+works. There is no asset watcher to run alongside it, so it is not the
+foreman-and-`Procfile.dev` version Rails generates for apps that have one.
 
 Visit http://localhost:3000 and share a benchmark at it using the `SHARE_URL` example above.
 
@@ -133,8 +138,8 @@ client. To check a change for real, start the app and point an actual benchmark
 at it:
 
 ```bash
-bin/rails server
-SHARE_URL=http://localhost:3000 ruby my_benchmark.rb
+bin/dev
+SHARE_URL=http://localhost:3000 ruby examples/smoke_benchmark.rb
 ```
 
 Then confirm what was stored:

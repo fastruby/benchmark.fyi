@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+set -e
+
+# There is no asset watcher to run alongside the server, so this is a plain
+# launcher rather than the foreman + Procfile.dev version Rails generates.
+
+if [ ! -f config/database.yml ]; then
+  echo "config/database.yml is missing, so the server cannot start."
+  echo
+  echo "  cp config/database.yml.github config/database.yml"
+  echo
+  echo "That template expects a 'postgres' role over TCP. If you run PostgreSQL"
+  echo "locally, the README has a shorter version that uses your own account."
+  exit 1
+fi
+
+exec bin/rails server "$@"
