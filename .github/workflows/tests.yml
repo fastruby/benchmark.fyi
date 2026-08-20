@@ -51,7 +51,9 @@ jobs:
       # is resolved from its own committed lockfile and cached separately.
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version-file: .tool-versions
+          # setup-ruby has no ruby-version-file input; the file is named through
+          # ruby-version itself.
+          ruby-version: .tool-versions
           bundler-cache: true
 
       - name: Set up the database
