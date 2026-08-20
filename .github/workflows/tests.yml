@@ -29,11 +29,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.12"
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-
+          ruby-version: "4.0.6"
       - name: Install PostgreSQL 11 client
         run: |
           sudo apt-get -yqq install libpq-dev
@@ -46,7 +42,6 @@ jobs:
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3
-          yarn install
           cp config/database.yml.github config/database.yml
           cat config/database.yml
           bin/setup
@@ -73,11 +68,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3.12"
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-
+          ruby-version: "4.0.6"
       - name: Install PostgreSQL 11 client
         run: |
           sudo apt-get -yqq install libpq-dev
@@ -91,7 +82,6 @@ jobs:
         run: |
           gem install bundler
           bundle update rails --jobs 4 --retry 3
-          yarn install
           cp config/database.yml.github config/database.yml
           cat config/database.yml
           bin/setup

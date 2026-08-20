@@ -20,7 +20,6 @@
 
 
 /public/assets
-.byebug_history
 .ruby-version
 
 # Ignore master key for decrypting credentials and more.
@@ -29,9 +28,3 @@
 # Database
 config/database.yml
 
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
